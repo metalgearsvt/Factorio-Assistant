@@ -1,5 +1,5 @@
 #!/bin/bash
-FACTORIO_DIR=$(readlink -f "/home/perf/scripts/Factorio/Game/factorio");
+FACTORIO_DIR=$(readlink -f " ### PATH TO FACTORIO ###");
 VER="0.0.1";
 MOD=$(readlink -f "$FACTORIO_DIR""/mods/");
 SUBF=("prototypes" "locale" "graphics");
