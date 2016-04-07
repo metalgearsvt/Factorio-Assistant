@@ -1,34 +1,38 @@
 #!/bin/bash
-FACTORIO_DIR=" ### FILL THIS IN WITH YOUR FACTORIO DIRECTORY. NO TRAILING / PLEASE. ### ";
+FACTORIO_DIR=$(readlink -f "/home/perf/scripts/Factorio/Game/factorio");
 VER="0.0.1";
-MOD="$FACTORIO_DIR/mods/";
+MOD=$(readlink -f "$FACTORIO_DIR""/mods/");
 SUBF=("prototypes" "locale" "graphics");
 INFO="info.json";
+RED="\033[1;31m";
+GRN="\033[1;32m";
+YLW="\033[1;33m";
+CLR="\033[0m";
 printf "\r\n";
 printf "Checking Factorio Directory...";
 if [ ! -d "$FACTORIO_DIR" ]; then
- printf "\e[31mERR\e[0m\r\n$FACTORIO_DIR NOT FOUND!\r\n";
+ printf "${RED}ERR${CLR}\r\n$FACTORIO_DIR NOT FOUND!\r\n";
  exit;
 else
- printf "\e[32mOK!\e[0m\r\n";
+ printf "${GRN}OK!${CLR}\r\n";
 fi
 printf "Checking Mod Directory...";
 if [ ! -d "$MOD" ]; then
- printf "\e[35mWARN\r\nDirectory does not exist, creating...\e[0m\r\n";
- mkdir "$MOD";
+ printf "${YLW}WARN\r\nDirectory does not exist, creating...${CLR}\r\n";
+ mkdir -p "$MOD";
 else
- printf "\e[32mOK!\e[0m\r\n";
+ printf "${GRN}OK!${CLR}\r\n";
 fi
 printf "What is the name of your mod? ";
 read MODN;
 MODVN="$MODN""_$VER";
-MODFL="$MOD""$MODVN";
+MODFL="$MOD/$MODVN";
 printf "Checking...";
 if [ -d "$MODFL" ]; then
- printf "\e[31mERR\r\nDirectory $MODFL Exists!\e[0m\r\n";
+ printf "${RED}ERR\r\nDirectory $MODFL Exists!${CLR}\r\n";
  exit;
 fi
-printf "\e[32mOK!\e[0m\r\n";
+printf "${GRN}OK!${CLR}\r\n";
 mkdir "$MODFL";
 cd "$MODFL";
 echo "Creating control.lua...";
@@ -62,12 +66,12 @@ printf "Homepage: ";
 read A6;
 printf "Description of mod: ";
 read A7;
-echo "{" >> $INFO;
-printf "\t\"$J1\": \"$MODN\",\r\n" >> $INFO;
-printf "\t\"$J2\": \"$VER\",\r\n" >> $INFO;
-printf "\t\"$J3\": \"$A3\",\r\n" >> $INFO;
-printf "\t\"$J4\": \"$A4\",\r\n" >> $INFO;
-printf "\t\"$J5\": \"$A5\",\r\n" >> $INFO;
-printf "\t\"$J6\": \"$A6\",\r\n" >> $INFO;
-printf "\t\"$J7\": \"$A7\"\r\n" >> $INFO;
+echo "{" > $INFO;
+echo "\"$J1\": \"$MODN\"," >> $INFO;
+echo "\"$J2\": \"$VER\"," >> $INFO;
+echo "\"$J3\": \"$A3\"," >> $INFO;
+echo "\"$J4\": \"$A4\"," >> $INFO;
+echo "\"$J5\": \"$A5\"," >> $INFO;
+echo "\"$J6\": \"$A6\"," >> $INFO;
+echo "\"$J7\": \"$A7\"" >> $INFO;
 echo "}" >> $INFO;
